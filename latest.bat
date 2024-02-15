@@ -147,7 +147,6 @@ exit /B 0
 :exitnoprompt
 cd %temp%
 del .\officebatchversion.txt >nul
-del .\latestofficeinstaller.bat >nul
 exit /B 0
 
 :debugmenu
