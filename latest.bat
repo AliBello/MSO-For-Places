@@ -135,7 +135,6 @@ echo Online Office Installer For Ayasofya
 echo Cleaning up...
 cd %temp%
 del .\officebatchversion.txt >nul
-del .\latestofficeinstaller.bat >nul
 del office-setup\* >nul
 y
 rmdir office-setup >nul
