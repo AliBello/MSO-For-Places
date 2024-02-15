@@ -5,7 +5,7 @@
 :: I = Interactive
 
 :start
-@echo off
+@echo on
 set errorlevel=0
 set version=2.2
 
