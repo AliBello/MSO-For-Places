@@ -34,9 +34,9 @@ curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/la
 :update
 cls
 echo Old version (%version%) detected.
+set wantupdate=y
 set /P wantupdate=Do you want to update? ([Y]/N) 
 if /I %wantupdate% == n goto confirm
-if /I %wantupdate% == "" echo placeholder >nul
 curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latest.bat" -o %temp%/latestofficeinstaller.bat
 start %temp%\latestofficeinstaller.bat && exit
 
