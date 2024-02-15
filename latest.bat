@@ -7,7 +7,7 @@
 :start
 @echo off
 set errorlevel=0
-set version=2.2.1
+set version=2.2.2
 
 set interactive=y
 set debug=n
@@ -86,8 +86,8 @@ C:
 cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
-curl https://files.mobielstraat.nl/api/public/dl/I0m2eh0U/Downloads/office/installer.exe -o "./installer.exe" >nul
-curl https://files.mobielstraat.nl/api/public/dl/48w9Rpak/Downloads/office/settingsx64.xml -o "./settingsx64.xml" >nul
+curl https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/installer.exe -o "./installer.exe" >nul
+curl https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/settingsx64.xml -o "./settingsx64.xml" >nul
 START /W installer.exe /configure settingsx64.xml >nul
 if %errorlevel% == 1 exit /B 1
 goto activatex64
@@ -100,8 +100,8 @@ C:
 cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
-curl https://files.mobielstraat.nl/api/public/dl/I0m2eh0U/Downloads/office/installer.exe -o "./installer.exe" >nul
-curl https://files.mobielstraat.nl/api/public/dl/Gkus_YbC/Downloads/office/settingsx86.xml -o "./settingsx86.xml" >nul
+curl https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/installer.exe -o "./installer.exe" >nul
+curl https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/settingsx86.xml -o "./settingsx86.xml" >nul
 START /W installer.exe /configure settingsx86.xml >nul
 if %errorlevel% == 1 exit /B 1
 goto activatex86
