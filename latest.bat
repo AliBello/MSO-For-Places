@@ -1,16 +1,17 @@
 :: Made by Ali
 :: mobielstraat.nl
-:: Version 2.2
+:: Version 2.2.1
 :: N = Non-interactive
 :: I = Interactive
 
 :start
 @echo off
 set errorlevel=0
-set version=2.2
+set version=2.2.1
 
 set interactive=y
 set debug=n
+set updateprompt=y
 
 fsutil dirty query %systemdrive%  >nul 2>&1 || (
 echo ==== ERROR ====
@@ -33,6 +34,7 @@ curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/la
 
 :update
 cls
+if %updateprompt% == y goto confirm
 echo Old version (%version%) detected.
 set wantupdate=y
 set /P wantupdate=Do you want to update? ([Y]/N) 
@@ -45,7 +47,7 @@ cls
 set errorlevel=0
 echo This will install Office 2021 on this computer.
 echo Warning: If you install office via this batch file, it will mark Ayasofya Arnhem as the orginization for office.
-set cancel=null
+set cancel=y
 if /I %interactive% == y (
 set /P cancel="Proceed? (Y/N) "
  )
