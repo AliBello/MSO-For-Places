@@ -1,6 +1,7 @@
 :: Made by Ali
 :: mobielstraat.nl
-:: Version 2.2.1
+:: Main repository at https://github.com/AliBello/MSO-For-Ayasofya-Arnhem/releases
+:: Office Downloader, installer, and activator made for Ayasofya Arnhem
 :: N = Non-interactive
 :: I = Interactive
 
