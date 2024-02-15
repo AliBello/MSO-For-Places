@@ -8,7 +8,6 @@
 @echo off
 set errorlevel=0
 set version=2.2
-set wantupdate=null
 
 set interactive=y
 set debug=n
@@ -52,10 +51,11 @@ set /P cancel="Proceed? (Y/N) "
 if /I %debug% == y goto debugmenu
 if /I %interactive% == n goto cpucheck
 if /I %cancel% == y goto cpucheck
-if /I %cancel% == n goto exitnoprompt
+if /I %cancel% == n exit /B 0
 if /I %cancel% == debug goto debugmenu
 cls
 echo ==== ERROR ====
+echo.
 echo Please choose an option
 echo.
 goto confirm
@@ -142,11 +142,6 @@ echo Online Office Installer For Ayasofya
 echo Done!
 if /I %interactive% == y echo Press any key to exit...
 if /I %interactive% == y pause >nul
-exit /B 0
-
-:exitnoprompt
-cd %temp%
-del .\officebatchversion.txt >nul
 exit /B 0
 
 :debugmenu
