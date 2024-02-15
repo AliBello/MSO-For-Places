@@ -151,18 +151,18 @@ exit /B 0
 :debugmenu
 cls
 echo ----------------------------------
-echo | Goto options:                  |
-echo | start                          |
-echo | versioncheck                   |
-echo | update                         |
-echo | confirm                        |
-echo | cpucheck                       |
-echo | installx64                     |
-echo | activatex64                    |
-echo | installx86                     |
-echo | activatex86                    |
-echo | cleanup                        |
-echo | exit                           |
+echo ^| Goto options:                  ^|
+echo ^| start                          ^|
+echo ^| versioncheck                   ^|
+echo ^| update                         ^|
+echo ^| confirm                        ^|
+echo ^| cpucheck                       ^|
+echo ^| installx64                     ^|
+echo ^| activatex64                    ^|
+echo ^| installx86                     ^|
+echo ^| activatex86                    ^|
+echo ^| cleanup                        ^|
+echo ^| exit                           ^|
 echo ----------------------------------
 echo.
 set /P goto=Goto where? 
