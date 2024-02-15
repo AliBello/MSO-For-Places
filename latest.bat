@@ -8,6 +8,7 @@
 @echo off
 set errorlevel=0
 set version=2.2
+set wantupdate=null
 
 set interactive=y
 set debug=n
@@ -24,9 +25,9 @@ exit /B 1
 )
 
 :versioncheck
-curl "https://raw.githubusercontent.com/AliBello/latestofficeinstallercheck/main/latestversion?token=GHSAT0AAAAAACNQIEYE2KMJX2KLTHXSSGX4ZON7UDA" -o %temp%/officebatchversion.txt
->nul find %version% %temp%/officebatchversion.txt && (
-  goto cpucheck
+curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latestversion" -o %temp%/officebatchversion.txt
+ find "%version%" %temp%\officebatchversion.txt && (
+  goto confirm
 ) || (
   goto update
 )
@@ -34,37 +35,43 @@ curl "https://raw.githubusercontent.com/AliBello/latestofficeinstallercheck/main
 :update
 cls
 echo Old version (%version%) detected.
-set /D wantupdate=Do you want to update? ([Y]/N) 
+set /P wantupdate=Do you want to update? ([Y]/N) 
 if /I %wantupdate% == n goto confirm
-curl "https://raw.githubusercontent.com/AliBello/latestofficeinstallercheck/main/latest.bat?token=GHSAT0AAAAAACNQIEYEH5HVYHVXYW4N6Q2WZOOBCRQ" -o %temp%/latestofficeinstaller.bat
-start %temp%/latestofficeinstaller.bat && exit
+curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latest.bat" -o %temp%/latestofficeinstaller.bat
+start %temp%\latestofficeinstaller.bat && exit
 
 :confirm
+cls
 set errorlevel=0
 echo This will install Office 2021 on this computer.
 echo Warning: If you install office via this batch file, it will mark Ayasofya Arnhem as the orginization for office.
 set cancel=null
-if /I %interactive% == y set /P cancel=Proceed? (Y/N)
+if /I %interactive% == y (
+set /P cancel="Proceed? (Y/N) "
+ )
 if /I %debug% == y goto debugmenu
 if /I %interactive% == n goto cpucheck
 if /I %cancel% == y goto cpucheck
-if /I %cancel% == n exit /b 0
+if /I %cancel% == n goto exitnoprompt
 if /I %cancel% == debug goto debugmenu
 cls
 echo ==== ERROR ====
 echo Please choose an option
 echo.
-goto start
+goto confirm
 
 :cpucheck
 if %PROCESSOR_ARCHITECTURE% == x86 goto installx86
-if %PROCESSOR_ARCHITECTURE% == x64 goto installx64
+if %PROCESSOR_ARCHITECTURE% == AMD64 goto installx64
 cls
 echo ==== ERROR ====
 echo.
 echo Your CPU architecture is unsupported.
 echo.
 echo Press any key to exit...
+cd %temp% >nul
+del .\officebatchversion.txt >nul
+del .\latestofficeinstaller.bat >nul
 pause >nul
 exit /B 1
 
@@ -123,9 +130,9 @@ cls
 echo Online Office Installer For Ayasofya
 echo Cleaning up...
 cd %temp%
-del officebatchversion.txt >nul
-del latestofficeinstaller.bat >nul
-del office-setup/* >nul
+del .\officebatchversion.txt >nul
+del .\latestofficeinstaller.bat >nul
+del office-setup\* >nul
 y
 rmdir office-setup >nul
 
@@ -135,6 +142,12 @@ echo Online Office Installer For Ayasofya
 echo Done!
 if /I %interactive% == y echo Press any key to exit...
 if /I %interactive% == y pause >nul
+exit /B 0
+
+:exitnoprompt
+cd %temp%
+del .\officebatchversion.txt >nul
+del .\latestofficeinstaller.bat >nul
 exit /B 0
 
 :debugmenu
