@@ -105,6 +105,7 @@ cscript ospp.vbs /sethst:server.mc.mobielstraat.nl >nul
 cscript ospp.vbs /inpkey:FXYTK-NJJ8C-GB6DW-3DYQT-6F7TH >nul
 cscript ospp.vbs /act >nul
 if %errorlevel% == 1 exit /B 1
+goto cleanup
 
 :activatex86
 cls
@@ -115,6 +116,7 @@ cscript ospp.vbs /sethst:server.mc.mobielstraat.nl >nul
 cscript ospp.vbs /inpkey:FXYTK-NJJ8C-GB6DW-3DYQT-6F7TH >nul
 cscript ospp.vbs /act >nul
 if %errorlevel% == 1 exit /B 1
+goto cleanup
 
 :cleanup
 cls
