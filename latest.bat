@@ -5,7 +5,7 @@
 :: I = Interactive
 
 :start
-@echo on
+@echo off
 set errorlevel=0
 set version=2.2
 
@@ -36,6 +36,7 @@ cls
 echo Old version (%version%) detected.
 set /P wantupdate=Do you want to update? ([Y]/N) 
 if /I %wantupdate% == n goto confirm
+if /I %wantupdate% == "" echo placeholder >nul
 curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latest.bat" -o %temp%/latestofficeinstaller.bat
 start %temp%\latestofficeinstaller.bat && exit
 
