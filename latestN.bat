@@ -22,7 +22,7 @@ set debug=n
 if /I %debug% == y goto debugmenu
 
 :versioncheck
-curl "https://raw.githubusercontent.com/AliBello/latestofficeinstallercheck/main/Latest%20Non-interactive%20version?token=GHSAT0AAAAAACNQIEYEGP5OI6UJQQFL5GUOZON56LQ" -o %temp%/officebatchversion.txt
+curl "https://raw.githubusercontent.com/AliBello/latestofficeinstallercheck/main/latestversion?token=GHSAT0AAAAAACNQIEYEU7JW5RKWXMJPGWIEZON7QUA" -o %temp%/officebatchversion.txt
 >nul find %version% %temp%/officebatchversion.txt && (
   goto cpucheck
 ) || (
