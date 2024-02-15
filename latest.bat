@@ -25,7 +25,7 @@ exit /B 1
 )
 
 :versioncheck
-curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latestversion" -o %temp%/officebatchversion.txt
+curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latestversion" -o %temp%/officebatchversion.txt >nul
  find "%version%" %temp%\officebatchversion.txt && (
   goto confirm
 ) || (
@@ -39,7 +39,7 @@ echo Old version (%version%) detected.
 set wantupdate=y
 set /P wantupdate=Do you want to update? ([Y]/N) 
 if /I %wantupdate% == n goto confirm
-curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latest.bat" -o %temp%/latestofficeinstaller.bat
+curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latest.bat" -o %temp%/latestofficeinstaller.bat >nul
 start %temp%\latestofficeinstaller.bat && exit
 
 :confirm
@@ -86,8 +86,8 @@ C:
 cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
-curl https://files.mobielstraat.nl/api/public/dl/I0m2eh0U/Downloads/office/installer.exe -o "./installer.exe" 
-curl https://files.mobielstraat.nl/api/public/dl/48w9Rpak/Downloads/office/settingsx64.xml -o "./settingsx64.xml" 
+curl https://files.mobielstraat.nl/api/public/dl/I0m2eh0U/Downloads/office/installer.exe -o "./installer.exe" >nul
+curl https://files.mobielstraat.nl/api/public/dl/48w9Rpak/Downloads/office/settingsx64.xml -o "./settingsx64.xml" >nul
 START /W installer.exe /configure settingsx64.xml >nul
 if %errorlevel% == 1 exit /B 1
 goto activatex64
@@ -100,8 +100,8 @@ C:
 cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
-curl https://files.mobielstraat.nl/api/public/dl/I0m2eh0U/Downloads/office/installer.exe -o "./installer.exe" 
-curl https://files.mobielstraat.nl/api/public/dl/Gkus_YbC/Downloads/office/settingsx86.xml -o "./settingsx86.xml" 
+curl https://files.mobielstraat.nl/api/public/dl/I0m2eh0U/Downloads/office/installer.exe -o "./installer.exe" >nul
+curl https://files.mobielstraat.nl/api/public/dl/Gkus_YbC/Downloads/office/settingsx86.xml -o "./settingsx86.xml" >nul
 START /W installer.exe /configure settingsx86.xml >nul
 if %errorlevel% == 1 exit /B 1
 goto activatex86
