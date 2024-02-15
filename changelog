@@ -1,5 +1,0 @@
-New in 2.1
-
-- Added check for new updates.
-- Fixed a bug that also activated other CPU Architecture version of office.
-- Added exit if activation or installation failed with error code 1.
