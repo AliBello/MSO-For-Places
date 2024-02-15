@@ -27,7 +27,7 @@ exit /B 1
 
 :versioncheck
 curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latestversion" -o %temp%/officebatchversion.txt >nul
->nul findstr /X "%version%" %temp%\officebatchversion.txt && (
+>nul findstr "%version%" %temp%\officebatchversion.txt && (
   goto confirm
 ) || (
   goto update
