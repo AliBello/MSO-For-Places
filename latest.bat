@@ -34,7 +34,7 @@ curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/la
 
 :update
 cls
-if %updateprompt% == y goto confirm
+if %updateprompt% == n goto confirm
 echo Old version (%version%) detected.
 set wantupdate=y
 set /P wantupdate=Do you want to update? ([Y]/N) 
