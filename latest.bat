@@ -6,7 +6,7 @@
 :: I = Interactive
 
 :start
-@echo on
+@echo off
 cls
 set errorlevel=0
 set gotoerror=0
