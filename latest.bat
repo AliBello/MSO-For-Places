@@ -6,7 +6,7 @@
 :: I = Interactive
 
 :start
-@echo off
+@echo on
 cls
 set errorlevel=0
 set gotoerror=0
@@ -76,14 +76,14 @@ cls
 set errorlevel=0
 echo This will install Office 2021 on this computer.
 echo Warning: If you install office via this batch file, it will mark Ayasofya Arnhem as the orginization for office.
-set cancel=y
-if /I %interactive% == y (
-set /P cancel="Proceed? (Y/N) "
-if /I %debug% == y goto debugmenu
-if /I %interactive% == n goto cpucheck
-if /I %cancel% == y goto cpucheck
-if /I %cancel% == n exit /B 0
-if /I %cancel% == debug goto debugmenu
+set proceed=y
+if /I "%interactive%"=="n" goto cpucheck
+set /P proceed="Proceed? (Y/N) "
+if /I "%debug%"=="y" goto debugmenu
+if /I "%interactive%"=="n" goto cpucheck
+if /I "%proceed%"=="y" goto cpucheck
+if /I "%proceed%"=="n" exit /B 0
+if /I "%proceed%"=="debug" goto debugmenu
 cls
 echo ==== ERROR ====
 echo.
