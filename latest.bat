@@ -11,6 +11,7 @@ cls
 set errorlevel=0
 set gotoerror=0
 set version=2.2.3
+set base=https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/
 
 set interactive=y
 set debug=n
@@ -68,7 +69,7 @@ echo Old version (%version%) detected.
 set wantupdate=y
 set /P wantupdate=Do you want to update? ([Y]/N) 
 if /I %wantupdate% == n goto confirm
-curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latest.bat" -o %temp%/latestofficeinstaller.bat >nul
+curl %base%latest.bat -o %temp%/latestofficeinstaller.bat >nul
 start %temp%\latestofficeinstaller.bat && exit
 
 :confirm
@@ -114,8 +115,8 @@ C:
 cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
-curl https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/installer.exe -o "./installer.exe" >nul
-curl https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/settingsx64.xml -o "./settingsx64.xml" >nul
+curl %base%installer.exe -o "./installer.exe" >nul
+curl %base%/settingsx64.xml -o "./settingsx64.xml" >nul
 START /W installer.exe /configure settingsx64.xml >nul
 if %errorlevel% == 1 exit /B 1
 goto activatex64
@@ -128,8 +129,8 @@ C:
 cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
-curl https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/installer.exe -o "./installer.exe" >nul
-curl https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/settingsx86.xml -o "./settingsx86.xml" >nul
+curl %base%installer.exe -o "./installer.exe" >nul
+curl %base%settingsx86.xml -o "./settingsx86.xml" >nul
 START /W installer.exe /configure settingsx86.xml >nul
 if %errorlevel% == 1 exit /B 1
 goto activatex86
