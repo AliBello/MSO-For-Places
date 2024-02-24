@@ -79,7 +79,6 @@ echo Warning: If you install office via this batch file, it will mark Ayasofya A
 set cancel=y
 if /I %interactive% == y (
 set /P cancel="Proceed? (Y/N) "
- )b
 if /I %debug% == y goto debugmenu
 if /I %interactive% == n goto cpucheck
 if /I %cancel% == y goto cpucheck
