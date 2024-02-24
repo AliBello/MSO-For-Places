@@ -55,7 +55,7 @@ cd /d %~dp0
 if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
 :versioncheck
-curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latestversion" -o %temp%/officebatchversion.txt >nul
+curl %base%latestversion -o %temp%/officebatchversion.txt >nul
 >nul find "%version%" %temp%\officebatchversion.txt && (
   goto confirm
 ) || (
