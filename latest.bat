@@ -7,14 +7,38 @@
 
 :start
 @echo off
+cls
 set errorlevel=0
-set version=2.2.2
+set gotoerror=0
+set version=2.2.3
 
 set interactive=y
 set debug=n
 set updateprompt=y
 
-fsutil dirty query %systemdrive%  >nul 2>&1 || (
+CLS
+
+:initadmin
+setlocal DisableDelayedExpansion
+set "batchPath=%~0"
+for %%k in (%0) do set batchName=%%~nk
+set "vbsGetPrivileges=%temp%\OEgetPriv_%batchName%.vbs"
+setlocal EnableDelayedExpansion
+
+:checkprivileges
+NET FILE 1>NUL 2>NUL
+if '%errorlevel%' == '0' ( goto gotprivileges ) else ( goto getprivileges )
+
+:getprivileges
+if '%1'=='ELEV' (echo ELEV & shift /1 & goto gotprivileges)
+
+ECHO Set UAC = CreateObject^("Shell.Application"^) > "%vbsGetPrivileges%"
+ECHO args = "ELEV " >> "%vbsGetPrivileges%"
+ECHO For Each strArg in WScript.Arguments >> "%vbsGetPrivileges%"
+ECHO args = args ^& strArg ^& " "  >> "%vbsGetPrivileges%"
+ECHO Next >> "%vbsGetPrivileges%"
+ECHO UAC.ShellExecute "!batchPath!", args, "", "runas", 1 >> "%vbsGetPrivileges%"
+"%SystemRoot%\System32\WScript.exe" "%vbsGetPrivileges%" %*
 echo ==== ERROR ====
 echo.
 echo This script require administrator privileges.
@@ -23,7 +47,11 @@ echo.
 echo Press any key to exit...
 pause >nul
 exit /B 1
-)
+
+:gotprivileges
+setlocal & pushd .
+cd /d %~dp0
+if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
 :versioncheck
 curl "https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/latestversion" -o %temp%/officebatchversion.txt >nul
@@ -51,7 +79,7 @@ echo Warning: If you install office via this batch file, it will mark Ayasofya A
 set cancel=y
 if /I %interactive% == y (
 set /P cancel="Proceed? (Y/N) "
- )
+ )b
 if /I %debug% == y goto debugmenu
 if /I %interactive% == n goto cpucheck
 if /I %cancel% == y goto cpucheck
@@ -150,9 +178,17 @@ exit /B 0
 
 :debugmenu
 cls
+if %gotoerror% == 1 echo ==== ERROR ====
+if %gotoerror% == 1 echo.
+if %gotoerror% == 1 echo Option not vaild.
+if %gotoerror% == 1 echo.
 echo ----------------------------------
 echo ^| Goto options:                  ^|
 echo ^| start                          ^|
+echo ^| initadmin                      ^|
+echo ^| checkprivileges                ^|
+echo ^| getprivileges                  ^|
+echo ^| gotprivileges                  ^|
 echo ^| versioncheck                   ^|
 echo ^| update                         ^|
 echo ^| confirm                        ^|
@@ -167,3 +203,5 @@ echo ----------------------------------
 echo.
 set /P goto=Goto where? 
 goto %goto%
+set gotoerror=1
+goto debugmenu
