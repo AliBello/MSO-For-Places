@@ -11,7 +11,7 @@ cls
 set errorlevel=0
 set gotoerror=0
 set version=2.2.3
-set base=https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main/
+set base=https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main
 
 set interactive=y
 set debug=n
@@ -55,7 +55,7 @@ cd /d %~dp0
 if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
 :versioncheck
-curl %base%latestversion -o %temp%/officebatchversion.txt >nul
+curl %base%/latestversion -o %temp%/officebatchversion.txt >nul
 >nul find "%version%" %temp%\officebatchversion.txt && (
   goto confirm
 ) || (
@@ -69,7 +69,7 @@ echo Old version (%version%) detected.
 set wantupdate=y
 set /P wantupdate=Do you want to update? ([Y]/N) 
 if /I %wantupdate% == n goto confirm
-curl %base%latest.bat -s -o %temp%/latestofficeinstaller.bat >nul
+curl %base%/latest.bat -s -o %temp%/latestofficeinstaller.bat >nul
 start %temp%\latestofficeinstaller.bat && exit
 
 :confirm
@@ -115,7 +115,7 @@ C:
 cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
-curl %base%installer.exe -s -o "./installer.exe" >nul
+curl %base%/installer.exe -s -o "./installer.exe" >nul
 curl %base%/settingsx64.xml -s -o "./settingsx64.xml" >nul
 START /W installer.exe /configure settingsx64.xml >nul
 if %errorlevel% == 1 exit /B 1
@@ -129,8 +129,8 @@ C:
 cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
-curl %base%installer.exe -s -o "./installer.exe" >nul
-curl %base%settingsx86.xml -s -o "./settingsx86.xml" >nul
+curl %base%/installer.exe -s -o "./installer.exe" >nul
+curl %base%/settingsx86.xml -s -o "./settingsx86.xml" >nul
 START /W installer.exe /configure settingsx86.xml >nul
 if %errorlevel% == 1 exit /B 1
 goto activatex86
