@@ -76,7 +76,7 @@ start %temp%\latestofficeinstaller.bat && exit
 cls
 set errorlevel=0
 echo This will install Office 2021 on this computer.
-echo Warning: If you install office via this batch file, it will mark Ayasofya Arnhem as the orginization for office.
+echo Warning: If you install office using this script, it will mark Ayasofya Arnhem as the orginization for office.
 set proceed=y
 if /I "%interactive%"=="n" goto cpucheck
 set /P proceed="Proceed? (Y/N) "
