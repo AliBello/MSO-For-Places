@@ -2,17 +2,18 @@
 :: mobielstraat.nl
 :: Main repository at https://github.com/AliBello/MSO-For-Ayasofya-Arnhem
 :: Office Downloader, installer, and activator made for Ayasofya Arnhem
-:: N = Non-interactive
-:: I = Interactive
 
 :start
-@echo off
+@echo on
 cls
 set errorlevel=0
 set gotoerror=0
-set version=2.2.3
-set base=https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main
+set version=2.2.4
+set rawbase=https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main
+set base=https://github.com/AliBello/MSO-For-Ayasofya-Arnhem
 
+:: Options
+:: Valid options are "y" and "n"
 set interactive=y
 set debug=n
 set updateprompt=y
@@ -55,7 +56,7 @@ cd /d %~dp0
 if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
 :versioncheck
-curl %base%/latestversion -o %temp%/officebatchversion.txt >nul
+curl %rawbase%/dependencies/latestversion -o %temp%/officebatchversion.txt >nul
 >nul find "%version%" %temp%\officebatchversion.txt && (
   goto confirm
 ) || (
@@ -63,13 +64,28 @@ curl %base%/latestversion -o %temp%/officebatchversion.txt >nul
 )
 
 :update
-cls
 if %updateprompt% == n goto confirm
+cls
+if /I %version% == debug (
+echo  ---------------------------------
+echo ^| -----  Challenge complete^!       ^|
+echo ^| ^\---^/                           ^|
+echo ^|  ^\-^/   How did we get here?     ^|
+echo  ---------------------------------
+echo.
+ )
+echo Online Office Installer For Ayasofya
+echo.
 echo Old version (%version%) detected.
 set wantupdate=y
 set /P wantupdate=Do you want to update? ([Y]/N) 
 if /I %wantupdate% == n goto confirm
-curl %base%/latest.bat -s -o %temp%/latestofficeinstaller.bat >nul
+curl %rawbase%/latest.bat -s -o %temp%/latestofficeinstaller.bat >nul
+if %errorlevel% == 1 echo Download failed, please update manually.
+if %errorlevel% == 1 echo Download is at %base%
+if %errorlevel% == 1 echo Press any key to exit...
+if %errorlevel% == 1 pause >nul
+if %errorlevel% == 1 exit /B 1
 start %temp%\latestofficeinstaller.bat && exit
 
 :confirm
@@ -77,15 +93,16 @@ cls
 set errorlevel=0
 echo This will install Office 2021 on this computer.
 echo Warning: If you install office using this script, it will mark Ayasofya Arnhem as the orginization for office.
-set proceed=y
+set proceed=
 if /I "%interactive%"=="n" goto cpucheck
 set /P proceed="Proceed? (Y/N) "
-if /I "%debug%"=="y" goto debugmenu
 if /I "%interactive%"=="n" goto cpucheck
 if /I "%proceed%"=="y" goto cpucheck
 if /I "%proceed%"=="n" exit /B 0
 if /I "%proceed%"=="debug" goto debugmenu
 cls
+echo Online Office Installer For Ayasofya
+echo.
 echo ==== ERROR ====
 echo.
 echo Please choose an option
@@ -93,9 +110,12 @@ echo.
 goto confirm
 
 :cpucheck
+if /I "%debug%"=="y" goto debugmenu
 if %PROCESSOR_ARCHITECTURE% == x86 goto installx86
 if %PROCESSOR_ARCHITECTURE% == AMD64 goto installx64
 cls
+echo Online Office Installer For Ayasofya
+echo.
 echo ==== ERROR ====
 echo.
 echo Your CPU architecture is unsupported.
@@ -115,8 +135,12 @@ C:
 cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
-curl %base%/installer.exe -s -o "./installer.exe" >nul
-curl %base%/settingsx64.xml -s -o "./settingsx64.xml" >nul
+curl %rawbase%/dependencies/installer.exe -s -o "./installer.exe" >nul
+curl %rawbase%/dependencies/settingsx64.xml -s -o "./settingsx64.xml" >nul
+if %errorlevel% == 1 echo Download failed, please update.
+if %errorlevel% == 1 echo Press any key to exit...
+if %errorlevel% == 1 pause >nul
+if %errorlevel% == 1 exit /B 1
 START /W installer.exe /configure settingsx64.xml >nul
 if %errorlevel% == 1 exit /B 1
 goto activatex64
@@ -129,8 +153,12 @@ C:
 cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
-curl %base%/installer.exe -s -o "./installer.exe" >nul
-curl %base%/settingsx86.xml -s -o "./settingsx86.xml" >nul
+curl %rawbase%/dependencies/installer.exe -s -o "./installer.exe" >nul
+curl %rawbase%/dependencies/settingsx86.xml -s -o "./settingsx86.xml" >nul
+if %errorlevel% == 1 echo Download failed, please update.
+if %errorlevel% == 1 echo Press any key to exit...
+if %errorlevel% == 1 pause >nul
+if %errorlevel% == 1 exit /B 1
 START /W installer.exe /configure settingsx86.xml >nul
 if %errorlevel% == 1 exit /B 1
 goto activatex86
@@ -167,11 +195,14 @@ del office-setup\installer.exe >nul
 del office-setup\settingsx86 >nul
 del office-setup\settingsx64 >nul
 rmdir office-setup >nul
+set interactive=
+set debug=
+set updateprompt=
 
 :exit
 cls
 echo Online Office Installer For Ayasofya
-echo Done!
+echo Done
 if /I %interactive% == y echo Press any key to exit...
 if /I %interactive% == y pause >nul
 exit /B 0
@@ -182,13 +213,14 @@ if %gotoerror% == 1 echo ==== ERROR ====
 if %gotoerror% == 1 echo.
 if %gotoerror% == 1 echo Option not vaild.
 if %gotoerror% == 1 echo.
-echo ----------------------------------
-echo ^| Goto options:                  ^|
-echo ^| start                          ^|
-echo ^| initadmin                      ^|
-echo ^| checkprivileges                ^|
-echo ^| getprivileges                  ^|
-echo ^| gotprivileges                  ^|
+set gotoerror=0
+echo  -----------------------------------------------------------
+echo ^| Goto options:                  ^| Created by Ali Bal       ^|
+echo ^| start                          ^| mobielstraat.nl          ^|
+echo ^| initadmin                      ^|                          ^|
+echo ^| checkprivileges                ^| Made for Ayasofya Arnhem ^|
+echo ^| getprivileges                  ^| arnhemayasofya.nl        ^|
+echo ^| gotprivileges                  ^|--------------------------
 echo ^| versioncheck                   ^|
 echo ^| update                         ^|
 echo ^| confirm                        ^|
@@ -199,7 +231,7 @@ echo ^| installx86                     ^|
 echo ^| activatex86                    ^|
 echo ^| cleanup                        ^|
 echo ^| exit                           ^|
-echo ----------------------------------
+echo  --------------------------------
 echo.
 set /P goto=Goto where? 
 goto %goto%
