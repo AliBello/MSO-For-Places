@@ -4,7 +4,7 @@
 :: Office Downloader, installer, and activator made for Ayasofya Arnhem
 
 :start
-@echo on
+@echo off
 cls
 set errorlevel=0
 set gotoerror=0
