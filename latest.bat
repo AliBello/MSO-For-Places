@@ -8,12 +8,14 @@
 cls
 set errorlevel=0
 set gotoerror=0
-set version=2.2.4
+set version=2.2.5
 set rawbase=https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main
 set base=https://github.com/AliBello/MSO-For-Ayasofya-Arnhem
 
 :: Options
-:: Valid options are "y" and "n"
+:: Text options
+set kms=server.mc.mobielstraat.nl
+:: Toggle options, valid options are "y" and "n"
 set interactive=y
 set debug=n
 set updateprompt=y
@@ -73,6 +75,10 @@ echo ^| ^\---^/                           ^|
 echo ^|  ^\-^/   How did we get here?     ^|
 echo  ---------------------------------
 echo.
+echo Looks like you're using a debug version of the software,
+echo These versions can be unstable and are intended for developement and debugging purposes.
+echo Usage of this version is not reccomended.
+echo.
  )
 echo Online Office Installer For Ayasofya
 echo.
@@ -96,10 +102,12 @@ echo Warning: If you install office using this script, it will mark Ayasofya Arn
 set proceed=
 if /I "%interactive%"=="n" goto cpucheck
 set /P proceed="Proceed? (Y/N) "
-if /I "%interactive%"=="n" goto cpucheck
 if /I "%proceed%"=="y" goto cpucheck
 if /I "%proceed%"=="n" exit /B 0
-if /I "%proceed%"=="debug" goto debugmenu
+if /I "%proceed%"=="debug" (
+  goto debugmenu
+  set debugconfirm=Y
+)
 cls
 echo Online Office Installer For Ayasofya
 echo.
@@ -208,19 +216,44 @@ if /I %interactive% == y pause >nul
 exit /B 0
 
 :debugmenu
+:maindebug
+cls
+echo Welcome to the debug menu.
+echo These are menus you can go to.
+echo.
+echo ---------------------------------------------------
+echo ^| 2. goto              ^| Created by Ali Bal       ^|
+echo ^| 3. set               ^| mobielstraat.nl          ^|
+echo ^|                      ^|                          ^|
+echo ^|                      ^| Made for Ayasofya Arnhem ^|
+echo ^| 1. exit              ^| arnhemayasofya.nl        ^|
+echo ---------------------------------------------------
+echo.
+choice /n /m "Please select. " /C "123"
+if ERRORLEVEL 3 goto setmenu
+if ERRORLEVEL 2 goto gotomenu
+if ERRORLEVEL 1 exit /B 0
+set errorlevel
+echo You discovered a bug!
+echo Please create an issue on github and tell what happened, and how to reproduce it
+echo Repository: %base%
+pause
+exit /B 1
+
+:gotomenu
 cls
 if %gotoerror% == 1 echo ==== ERROR ====
 if %gotoerror% == 1 echo.
 if %gotoerror% == 1 echo Option not vaild.
 if %gotoerror% == 1 echo.
 set gotoerror=0
-echo  -----------------------------------------------------------
-echo ^| Goto options:                  ^| Created by Ali Bal       ^|
-echo ^| start                          ^| mobielstraat.nl          ^|
-echo ^| initadmin                      ^|                          ^|
-echo ^| checkprivileges                ^| Made for Ayasofya Arnhem ^|
-echo ^| getprivileges                  ^| arnhemayasofya.nl        ^|
-echo ^| gotprivileges                  ^|--------------------------
+echo  --------------------------------
+echo ^| Goto options:                  ^|
+echo ^| start                          ^|
+echo ^| initadmin                      ^|
+echo ^| checkprivileges                ^|
+echo ^| getprivileges                  ^|
+echo ^| gotprivileges                  ^|
 echo ^| versioncheck                   ^|
 echo ^| update                         ^|
 echo ^| confirm                        ^|
@@ -230,10 +263,52 @@ echo ^| activatex64                    ^|
 echo ^| installx86                     ^|
 echo ^| activatex86                    ^|
 echo ^| cleanup                        ^|
+echo ^| maindebug                      ^|
+echo ^| gotomenu ^(this menu^)           ^|
+echo ^| setmenu                        ^|
 echo ^| exit                           ^|
 echo  --------------------------------
 echo.
 set /P goto=Goto where? 
 goto %goto%
 set gotoerror=1
-goto debugmenu
+goto gotomenu
+echo You discovered a bug!
+echo Please create an issue on github and tell what happened, and how to reproduce it
+echo Repository: %base%
+pause
+exit /B 1
+
+:setmenu
+echo  --------------------------------
+echo ^| set options:                   ^|
+echo ^| errorlevel                     ^|
+echo ^| gotoerror                      ^|
+echo ^| version                        ^|
+echo ^| rawbase                        ^|
+echo ^| base                           ^|
+echo ^| kms                            ^|
+echo ^| interactive                    ^|
+echo ^| debug                          ^|
+echo ^| updateprompt                   ^|
+echo ^| wantupdate                     ^|
+echo ^| proceed                        ^|
+echo ^| debugconfirm                   ^|
+echo ^| PROCESSOR_ARCHITECTURE         ^|
+echo ^| setquery                       ^|
+echo ^|                                ^|
+echo ^| exit (will go to debug menu)   ^|
+echo ^|                                ^|
+echo ^| You can also enter set options ^|
+echo ^| that aren't in this list.      ^|
+echo  --------------------------------
+echo.
+set /P setquery=What set do you want to query? 
+if "%setquery%" == "exit" goto maindebug
+set setquery
+goto setmenu
+echo You discovered a bug!
+echo Please create an issue on github and tell what happened, and how to reproduce it
+echo Repository: %base%
+pause
+exit /B 1
