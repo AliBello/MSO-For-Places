@@ -1,7 +1,7 @@
 :: Made by Ali
 :: mobielstraat.nl
-:: Main repository at https://github.com/AliBello/MSO-For-Ayasofya-Arnhem
-:: Office Downloader, installer, and activator made for Ayasofya Arnhem
+:: Main repository at https://github.com/AliBello/MSO-For-Places
+:: Office Downloader, installer, and activator made for different places.
 
 :start
 @echo off
@@ -9,16 +9,17 @@ cls
 set errorlevel=0
 set gotoerror=0
 set version=2.2.5
-set rawbase=https://raw.githubusercontent.com/AliBello/MSO-For-Ayasofya-Arnhem/main
-set base=https://github.com/AliBello/MSO-For-Ayasofya-Arnhem
+if %redirected% NEQ 1 set settings=%rawbase%
+set rawbase=https://raw.githubusercontent.com/AliBello/MSO-For-Places/main
+set base=https://github.com/AliBello/MSO-For-Places
 
 :: Options
 :: Text options
 set kms=server.mc.mobielstraat.nl
 :: Toggle options, valid options are "y" and "n"
-set interactive=y
-set debug=n
-set updateprompt=y
+if %redirected% NEQ 1 set interactive=y
+if %redirected% NEQ 1 set debug=n
+if %redirected% NEQ 1 set updateprompt=y
 
 CLS
 
@@ -144,7 +145,7 @@ cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
 curl %rawbase%/dependencies/installer.exe -s -o "./installer.exe" >nul
-curl %rawbase%/dependencies/settingsx64.xml -s -o "./settingsx64.xml" >nul
+curl %settings%/dependencies/settingsx64.xml -s -o "./settingsx64.xml" >nul
 if %errorlevel% == 1 echo Download failed, please update.
 if %errorlevel% == 1 echo Press any key to exit...
 if %errorlevel% == 1 pause >nul
@@ -162,7 +163,7 @@ cd %temp%
 mkdir office-setup >nul
 cd ./office-setup
 curl %rawbase%/dependencies/installer.exe -s -o "./installer.exe" >nul
-curl %rawbase%/dependencies/settingsx86.xml -s -o "./settingsx86.xml" >nul
+curl %settings%/dependencies/settingsx86.xml -s -o "./settingsx86.xml" >nul
 if %errorlevel% == 1 echo Download failed, please update.
 if %errorlevel% == 1 echo Press any key to exit...
 if %errorlevel% == 1 pause >nul
@@ -206,6 +207,7 @@ rmdir office-setup >nul
 set interactive=
 set debug=
 set updateprompt=
+set redirected=
 
 :exit
 cls
