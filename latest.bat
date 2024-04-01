@@ -81,7 +81,7 @@ echo These versions can be unstable and are intended for developement and debugg
 echo Usage of this version is not reccomended.
 echo.
  )
-echo Online Office Installer For Ayasofya
+echo Online Office Installer
 echo.
 echo Old version (%version%) detected.
 set wantupdate=y
@@ -99,7 +99,6 @@ start %temp%\latestofficeinstaller.bat && exit
 cls
 set errorlevel=0
 echo This will install Office 2021 on this computer.
-echo Warning: If you install office using this script, it will mark Ayasofya Arnhem as the orginization for office.
 set proceed=
 if /I "%interactive%"=="n" goto cpucheck
 set /P proceed="Proceed? (Y/N) "
@@ -110,7 +109,7 @@ if /I "%proceed%"=="debug" (
   set debugconfirm=Y
 )
 cls
-echo Online Office Installer For Ayasofya
+echo Online Office Installer
 echo.
 echo ==== ERROR ====
 echo.
@@ -123,7 +122,7 @@ if /I "%debug%"=="y" goto debugmenu
 if %PROCESSOR_ARCHITECTURE% == x86 goto installx86
 if %PROCESSOR_ARCHITECTURE% == AMD64 goto installx64
 cls
-echo Online Office Installer For Ayasofya
+echo Online Office Installer
 echo.
 echo ==== ERROR ====
 echo.
@@ -138,7 +137,7 @@ exit /B 1
 
 :installx64
 cls
-echo Online Office Installer For Ayasofya
+echo Online Office Installer
 echo Installing...
 C:
 cd %temp%
@@ -156,7 +155,7 @@ goto activatex64
 
 :installx86
 cls
-echo Online Office Installer For Ayasofya
+echo Online Office Installer
 echo Installing...
 C:
 cd %temp%
@@ -174,7 +173,7 @@ goto activatex86
 
 :activatex64
 cls
-echo Online Office Installer For Ayasofya
+echo Online Office Installer
 echo Activating...
 cd \Program Files\Microsoft Office\Office16 >nul
 cscript ospp.vbs /sethst:server.mc.mobielstraat.nl >nul
@@ -185,7 +184,7 @@ goto cleanup
 
 :activatex86
 cls
-echo Online Office Installer For Ayasofya
+echo Online Office Installer
 echo Activating...
 cd \Program Files (x86)\Microsoft Office\Office16 >nul
 cscript ospp.vbs /sethst:server.mc.mobielstraat.nl >nul
@@ -196,7 +195,7 @@ goto cleanup
 
 :cleanup
 cls
-echo Online Office Installer For Ayasofya
+echo Online Office Installer
 echo Cleaning up...
 cd %temp%
 del .\officebatchversion.txt >nul
@@ -211,7 +210,7 @@ set redirected=
 
 :exit
 cls
-echo Online Office Installer For Ayasofya
+echo Online Office Installer
 echo Done
 if /I %interactive% == y echo Press any key to exit...
 if /I %interactive% == y pause >nul
@@ -224,11 +223,11 @@ echo Welcome to the debug menu.
 echo These are menus you can go to.
 echo.
 echo ---------------------------------------------------
-echo ^| 2. goto              ^| Created by Ali Bal       ^|
+echo ^| 2. goto              ^| Made by Ali and YOU      ^|
 echo ^| 3. set               ^| mobielstraat.nl          ^|
 echo ^|                      ^|                          ^|
-echo ^|                      ^| Made for Ayasofya Arnhem ^|
-echo ^| 1. exit              ^| arnhemayasofya.nl        ^|
+echo ^|                      ^|                          ^|
+echo ^| 1. exit              ^|                          ^|
 echo ---------------------------------------------------
 echo.
 choice /n /m "Please select. " /C "123"
