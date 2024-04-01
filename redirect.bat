@@ -5,7 +5,7 @@
 
 set version=1
 set redirected=1
-set settings=https://raw.githubusercontent.com/AliBello/MSO-For-Places/expo
+set settings=https://raw.githubusercontent.com/AliBello/MSO-For-Places/Expo
 set rawbase=https://raw.githubusercontent.com/AliBello/MSO-For-Places/main
 
 :: Valid options are Y and N
