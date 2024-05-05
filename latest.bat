@@ -1,25 +1,31 @@
 :: Made by Ali
 :: mobielstraat.nl
 :: Main repository at https://github.com/AliBello/MSO-For-Places
-:: Office Downloader, installer, and activator made for different places.
+:: Office Downloader, installer, and activator.
 
 :start
 @echo off
 cls
 set errorlevel=0
 set gotoerror=0
-set version=2.2.5
-if %redirected% NEQ 1 set settings=%rawbase%
+set version=3
+if '%redirected%' NEQ 1 set settings=%rawbase%
 set rawbase=https://raw.githubusercontent.com/AliBello/MSO-For-Places/main
 set base=https://github.com/AliBello/MSO-For-Places
 
 :: Options
 :: Text options
-set kms=server.mc.mobielstraat.nl
+if '%redirected%' NEQ 1 set kms=server.mc.mobielstraat.nl
+if '%redirected%' NEQ 1 set tempdir=officesetup
 :: Toggle options, valid options are "y" and "n"
-if %redirected% NEQ 1 set interactive=y
-if %redirected% NEQ 1 set debug=n
-if %redirected% NEQ 1 set updateprompt=y
+if '%redirected%' NEQ 1 set interactive=y
+if '%redirected%' NEQ 1 set debug=n
+if '%redirected%' NEQ 1 set updateprompt=y
+
+C:
+cd %temp%
+mkdir %tempdir% >nul
+cd ./%tempdir%
 
 CLS
 
@@ -87,7 +93,7 @@ echo Old version (%version%) detected.
 set wantupdate=y
 set /P wantupdate=Do you want to update? ([Y]/N) 
 if /I %wantupdate% == n goto confirm
-curl %rawbase%/latest.bat -s -o %temp%/latestofficeinstaller.bat >nul
+curl %rawbase%/latest.bat -s -o ./latestofficeinstaller.bat >nul
 if %errorlevel% == 1 echo Download failed, please update manually.
 if %errorlevel% == 1 echo Download is at %base%
 if %errorlevel% == 1 echo Press any key to exit...
@@ -139,10 +145,6 @@ exit /B 1
 cls
 echo Online Office Installer
 echo Installing...
-C:
-cd %temp%
-mkdir office-setup >nul
-cd ./office-setup
 curl %rawbase%/dependencies/installer.exe -s -o "./installer.exe" >nul
 curl %settings%/dependencies/settingsx64.xml -s -o "./settingsx64.xml" >nul
 if %errorlevel% == 1 echo Download failed, please update.
@@ -198,15 +200,16 @@ cls
 echo Online Office Installer
 echo Cleaning up...
 cd %temp%
-del .\officebatchversion.txt >nul
-del office-setup\installer.exe >nul
-del office-setup\settingsx86 >nul
-del office-setup\settingsx64 >nul
-rmdir office-setup >nul
+del officesetup\officebatchversion.txt >nul
+del officesetup\installer.exe >nul
+del officesetup\settingsx86 >nul
+del officesetup\settingsx64 >nul
+rmdir officesetup >nul
 set interactive=
 set debug=
 set updateprompt=
 set redirected=
+set tempdir=
 
 :exit
 cls
@@ -223,17 +226,17 @@ echo Welcome to the debug menu.
 echo These are menus you can go to.
 echo.
 echo ---------------------------------------------------
-echo ^| 2. goto              ^| Made by Ali and YOU      ^|
-echo ^| 3. set               ^| mobielstraat.nl          ^|
+echo ^| 1. goto              ^| Made by Ali and YOU      ^|
+echo ^| 2. set               ^| mobielstraat.nl          ^|
 echo ^|                      ^|                          ^|
 echo ^|                      ^|                          ^|
-echo ^| 1. exit              ^|                          ^|
+echo ^| 0. exit              ^|                          ^|
 echo ---------------------------------------------------
 echo.
-choice /n /m "Please select. " /C "123"
-if ERRORLEVEL 3 goto setmenu
-if ERRORLEVEL 2 goto gotomenu
-if ERRORLEVEL 1 exit /B 0
+choice /n /m "Please select. " /C "012"
+if ERRORLEVEL 2 goto setmenu
+if ERRORLEVEL 1 goto gotomenu
+if ERRORLEVEL 0 exit /B 0
 set errorlevel
 echo You discovered a bug!
 echo Please create an issue on github and tell what happened, and how to reproduce it
