@@ -3,6 +3,9 @@
 :: Main repository at https://github.com/AliBello/MSO-For-Places
 :: Redirector
 
+@echo off
+set kms=server.mc.mobielstraat.nl
+set tempdir=officesetup
 set version=1
 set redirected=1
 set settings=https://raw.githubusercontent.com/AliBello/MSO-For-Places/Ayasofya
@@ -12,6 +15,11 @@ set rawbase=https://raw.githubusercontent.com/AliBello/MSO-For-Places/main
 set interactive=y
 set debug=n
 set updateprompt=y
+
+C:
+cd %temp%
+mkdir %tempdir%
+cd %tempdir%
 
 :versioncheck
 curl %rawbase%/dependencies/latestversion -o %temp%/officebatchversion.txt >nul
@@ -42,14 +50,14 @@ echo Old version (%version%) detected.
 set wantupdate=y
 set /P wantupdate=Do you want to update? ([Y]/N) 
 if /I %wantupdate% == n goto confirm
-curl %settings%/redirect.bat -s -o %temp%/latestofficeredirector >nul
+curl %settings%/redirect.bat -s -o /latestofficeredirector >nul
 if %errorlevel% == 1 echo Download failed, please update manually.
 if %errorlevel% == 1 echo Download is at %settings%/redirect.bat
 if %errorlevel% == 1 echo Press any key to exit...
 if %errorlevel% == 1 pause >nul
 if %errorlevel% == 1 exit /B 1
-start %temp%\latestofficeredirector.bat & exit
+start .\latestofficeredirector.bat & exit
 
 echo Downloading installer...
-curl %rawbase%/latest.bat -s -o %temp%/latestofficeinstaller.bat >nul
-start %temp%/latestofficeinstaller.bat & exit
+curl %rawbase%/latest.bat -s -o ./latestofficeinstaller.bat >nul
+start ./latestofficeinstaller.bat & exit
