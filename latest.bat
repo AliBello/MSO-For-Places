@@ -65,8 +65,8 @@ cd /d %~dp0
 if '%1'=='ELEV' (del "%vbsGetPrivileges%" 1>nul 2>nul  &  shift /1)
 
 :versioncheck
-curl %rawbase%/dependencies/latestversion -o %temp%/officebatchversion.txt >nul
->nul find "%version%" %temp%\officebatchversion.txt && (
+curl %rawbase%/dependencies/latestversion -o ./officebatchversion.txt >nul
+>nul find "%version%" .\officebatchversion.txt && (
   goto confirm
 ) || (
   goto update
@@ -99,7 +99,7 @@ if %errorlevel% == 1 echo Download is at %base%
 if %errorlevel% == 1 echo Press any key to exit...
 if %errorlevel% == 1 pause >nul
 if %errorlevel% == 1 exit /B 1
-start %temp%\latestofficeinstaller.bat && exit
+start .\latestofficeinstaller.bat && exit
 
 :confirm
 cls
@@ -135,7 +135,6 @@ echo.
 echo Your CPU architecture is unsupported.
 echo.
 echo Press any key to exit...
-cd %temp% >nul
 del .\officebatchversion.txt >nul
 del .\latestofficeinstaller.bat >nul
 pause >nul
@@ -159,10 +158,6 @@ goto activatex64
 cls
 echo Online Office Installer
 echo Installing...
-C:
-cd %temp%
-mkdir office-setup >nul
-cd ./office-setup
 curl %rawbase%/dependencies/installer.exe -s -o "./installer.exe" >nul
 curl %settings%/dependencies/settingsx86.xml -s -o "./settingsx86.xml" >nul
 if %errorlevel% == 1 echo Download failed, please update.
@@ -200,10 +195,10 @@ cls
 echo Online Office Installer
 echo Cleaning up...
 cd %temp%
-del officesetup\officebatchversion.txt >nul
-del officesetup\installer.exe >nul
-del officesetup\settingsx86 >nul
-del officesetup\settingsx64 >nul
+del .\officebatchversion.txt >nul
+del .\installer.exe >nul
+del .\settingsx86 >nul
+del .\settingsx64 >nul
 rmdir officesetup >nul
 set interactive=
 set debug=
