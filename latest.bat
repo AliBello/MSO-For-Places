@@ -15,7 +15,7 @@ set base=https://github.com/AliBello/MSO-For-Places
 
 :: Options
 :: Text options
-if '%redirected%' NEQ 1 set kms=server.mc.mobielstraat.nl
+if '%redirected%' NEQ 1 set kms=kms.srv.crsoo.com
 if '%redirected%' NEQ 1 set tempdir=officesetup
 :: Toggle options, valid options are "y" and "n"
 if '%redirected%' NEQ 1 set interactive=y
